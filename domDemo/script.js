@@ -22,7 +22,7 @@ let ul = document.querySelector("ul")
 console.log("ul");
 
 let li = document.querySelector("li")
-li.innerHTML = "Chocolate <b>Yumm</b>";
+li.innerHTML = "Chocolate <b>Yum!!!!!!!!</b>";
 
 document.querySelector("a").getAttribute("href");
 
@@ -48,13 +48,13 @@ submitButton.addEventListener("click", (event) =>{
 
     // console.log(fname + " " + lname + " " + age);
     let person = {
-        fname:input[0].value,
-        lname:input[1].value,
-        Number(input[2].value)
-    }
-    console.log(person);
-    input[0].value=""
-    input[1].value=""
-    input[2].value=""
-    
-});
+        fname: input[0].value,
+        lname: input[1].value,
+        age: Number(input[2].value
+        )}
+        let strPerson = JSON.stringify(person)
+        console.log(strPerson);
+           input[0].value = "";
+           input[1].value = "";
+           input[2].value = "";
+        }); 
