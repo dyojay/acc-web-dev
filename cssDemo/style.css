@@ -1,0 +1,69 @@
+/* star selector used to reset all values 
+used to reset default values  */
+
+/* Google Fonts */
+.mountains-of-christmas-regular {
+    font-family: "Mountains of Christmas", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .mountains-of-christmas-bold {
+    font-family: "Mountains of Christmas", serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  .creepster-regular {
+  font-family: "Creepster", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+
+* {
+    border: none;
+    margin: 10;
+    padding: none;
+    background-color: rgba(40, 75, 170, 0.098);
+}
+div{
+    border: red solid 5px;
+    width: 500px;
+    margin: auto auto;
+
+}
+div p {
+    border-color: black;
+    border-style: solid;
+    border-width: 8px;
+    margin: 10px, 10px,10px,20px; 
+
+}
+
+p{
+    display: inline-block;
+}
+
+p:nth-child(1){
+    text-align: center;
+    width: 90%;
+
+}
+#img_container{
+    flex-wrap: wrap;
+    width: 15%;
+    height: 160px;
+}
+img{
+    width: 100%;
+}
+#img_container {
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+#img_container:hover {
+    border-color: #0b9948; /* Blue border on hover */
+}
