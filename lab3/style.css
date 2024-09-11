@@ -1,0 +1,113 @@
+
+/* <!-- 1. Apply a red background to all paragraphs --> */
+p{ background-color:red;
+    
+    /* <!-- 11. Change the font family of all <p> elements to Arial --> */
+    font-family: Arial;
+
+    /* <!-- 13. Make the text of all <p> elements bold --> */
+    font-weight: bold;
+}
+
+/* <!-- 3. Apply a green border to the element with the id `unique-element` --> */
+#unique-element {border: green;}
+
+
+
+/* <!-- 21. Change the display property of all <span> elements to block --> */
+span{
+    display: block;
+}
+/* <!-- 4. Apply a font size of 20px to all <span> elements inside <div> --> */
+span, div {
+    font-size: 20px;
+}
+
+
+
+/* <!-- 5. Apply a yellow background to all input elements with type="text" --> */
+input{
+    background-color: yellow;
+}
+
+/* <!-- 6. Change the text color of all <h1> elements to purple --> */
+h1{
+    color: rgb(166, 75, 236);
+}
+
+
+/* <!-- 7. Change the background color of all <div> elements to light blue --> */
+div{
+/* <!-- 10. Set the opacity of all <div> elements to 0.5 --> */ */
+    opacity: 0.5;
+    background-color: lightblue;
+
+    /* <!-- 16. Add a 20px margin to all <div> elements --> */
+    margin: 20px;
+
+    /* <!-- 17. Add a 10px padding to all <div> elements --> */
+    padding: 10px;
+
+/* <!-- 18. Add a solid, 2px black border to all <div> elements --> */
+border: solid black;
+
+/* <!-- 20. Add a shadow to all <div> elements --> */
+box-shadow: black ;
+
+}
+
+
+/* <!-- 8. Apply a background image to the body element -->
+<!-- 9. Prevent the background image from repeating -->
+ */
+#image-container{
+    background-image:url('./assets/images.jpeg')  ;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+
+
+/* <!-- 12. Change the font size of all <h2> elements to 24px --> */ */
+h2 {
+    font-size: 24px;
+}
+
+/* <!-- 14. Center align all <h3> elements --> */
+h3{
+    color: white;
+    text-align: center;
+}
+
+/* <!-- 15. Remove underlines all links --> */
+a{
+text-decoration: none;
+}
+
+/* <!-- 19. Set the width of all <img> elements to 200px and height to 150px --> */
+img{
+width: 200px;
+height: 150px;
+}
+
+/* <!-- 22. Position a <div> element at the top-right corner of the page --> */
+#floatyTopR{
+position: absolute;
+top: 0;
+right:0;
+
+   
+}
+
+/* <!-- 23. Float a <div> element to the left --> */
+#floatyLeft{
+
+    float: left;
+}
+
+/* <!-- 24. Use flexbox to center align items inside a container --> */
+.container {
+    display: flex;
+    align-items: center;
+}
