@@ -5,10 +5,14 @@ let img = document.getElementsByTagName("img")
 img[0].setAttribute("src","https://images.dog.ceo/breeds/terrier-welsh/lucy.jpg" );
 img[0].style.width="300px"
 img[0].style.height="300px"
+img[0].style.display="block";
+img[0].style.margin="0 auto";
 
 
 let button = document.getElementsByTagName("button")
 //assign a listener for a click button 
+button[0].style.display="flex";
+button[0].style.margin="20px auto"
 button[0].addEventListener("click", () =>{
              //CONSUME API
 
