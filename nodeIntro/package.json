@@ -1,0 +1,22 @@
+{
+  "name": "nodeintro",
+  "version": "1.0.0",
+  "description": "Super Aesome Bank ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "Credit",
+    "Bank",
+    "money",
+    "account",
+    "loan"
+  ],
+  "author": "DY",
+  "license": "ISC",
+  "dependencies": {
+    "cat-me": "^1.0.3"
+  }
+}

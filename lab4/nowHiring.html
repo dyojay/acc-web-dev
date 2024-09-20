@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Now Hring</title>
+        <link rel="icon" href="assets/Red_Tacos_Restaurant_Logo_-removebg-preview-fotor-20240917222141.png">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body background-image="assets">
+      <nav class="navbar navbar-expand-lg bg-light bg-white">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">
+            <img src="assets/Red_Tacos_Restaurant_Logo_-removebg-preview-fotor-20240917222141.png" href="index.html" alt="Taco Logo"></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="menu.html">Menu</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="nowHiring.html">Now Hiring</a>
+              </li>
+            </ul>
+            <a href="menu.html" class="btn btn-brand">Order Online</a>
+          </div>
+        </div>
+      </nav>
+      <div class="form-container" ></div>
+      <form-floating class="row g-3 mx-auto" id="appForm">
+        <div class="col-md-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="name" placeholder="First and Last">
+        </div>
+        <div class="col-md-3">
+          <label for="age" class="form-label">Age</label>
+          <input type="number" class="form-control" id="age" placeholder="99">
+        </div>
+        <div class="col-12" ></div>
+        <div class="col-md-3">
+          <label for="phone" class="form-label">Phone</label>
+          <input type="tel" class="form-control" id="phone" placeholder="111-222-3333">
+        </div>
+        <div class="col-md-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="Taco@tacking@.com">
+        </div>
+        <div class="col-9" id="anyJob">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="fullTime">
+            <label class="form-check-label" for="fullTime">
+              Full Time Taco 
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="partTime">
+            <label class="form-check-label" for="partTime">
+              PT Taco 
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="aJob">
+            <label class="form-check-label" for="aJob">
+              I JUST NEED A JOB!
+            </label>
+          </div>
+        </div>
+        <div class="col-6">
+          <button type="submit" class="btn btn-danger" id="submitBtn">Submit</button>
+        </div>
+      </form-floating>
+      </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="script.js" async defer></script>
+    </body>
+</html>

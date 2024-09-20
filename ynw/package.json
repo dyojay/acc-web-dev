@@ -1,0 +1,17 @@
+{
+  "name": "ynw",
+  "version": "1.0.0",
+  "description": "yes or no",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "games"
+  ],
+  "author": "dy",
+  "license": "ISC",
+  "dependencies": {
+    "yes-no-words": "^3.0.0"
+  }
+}
