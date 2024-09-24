@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Checker</title>
+</head>
+<body>
+    <form onsubmit="return checkAge(event)">
+        <label for="age">Enter your age:</label>
+        <input type="text" id="age" name="age" required>
+        <button type="submit">Submit</button>
+    </form>
+    <p id="message"></p>
+
+    <script>
+        function checkAge(event) {
+            event.preventDefault();
+            const age = document.getElementById('age').value;
+            const message = document.getElementById('message');
+
+            if (isNaN(age) || parseInt(age) <= 18) {
+                message.textContent = "Error: Must be  older than 18.";
+            } else {
+                message.textContent = "Your old";
+            }
+            return false;
+        }
+    </script>
+</body>
+</html>

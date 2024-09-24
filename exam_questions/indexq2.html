@@ -1,0 +1,14 @@
+<p></p>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<p><code><button onclick="updateParagraph()">Click me</button></code></p>
+<p id="dynamicParagraph">I am a bunch of text and when submitted I should be centered. If not, then I might need to do some more research on how to do. :)</p>
+<script>
+        function updateParagraph() {
+            const newParagraph = "I am a bunch of text and when submitted I should be centered. If not, then I might need to do some more research on how to do. :)";
+            
+            const paragraph = document.getElementById('dynamicParagraph');
+            paragraph.textContent = newParagraph;
+            paragraph.style.textAlign = 'center';
+            paragraph.style.fontSize = '36em';
+        }
+    </script>

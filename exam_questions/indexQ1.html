@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Breeds List</title>
+</head>
+<body>
+    <h1>Dog Breeds</h1>
+    
+    <ul id="breedList">
+    </ul>
+
+    <button onclick="addBreeds()">Add Dog Breeds</button>
+
+    <script>
+        const dogBreeds = ["English Bulldogs", "Mastiff", "Mutt"];
+
+        function addBreeds() {
+            const list = document.getElementById('breedList');
+            list.innerHTML = '';
+            
+            for (let breed of dogBreeds) {
+                let li = document.createElement('li');
+                li.textContent = breed;
+                list.appendChild(li);
+            }
+        }
+    </script>
+</body>
+</html>
