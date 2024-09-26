@@ -1,8 +1,11 @@
 import React from 'react';
 
 const Greetings = (props) => {
+  
   return (
-    <h1>Hello, {props.name} !! </h1>
+    <div> <h1>Hello, {props.name} !! </h1></div>
+   
+    
   );
 };
 
