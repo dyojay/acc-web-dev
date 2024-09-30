@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import Dice from "../components/Dice";
+import { generateRandoNum } from "../helper";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [diceValues, setDiceValues] = useState([0, 0]);
+  const [sum, setSum] = useState(0);
+
+  const rollDice = () => {
+    const newValues = [generateRandoNum(), generateRandoNum()];
+    setDiceValues(newValues);
+  };
+
+  // useEffect to handle initial roll and sum calculation
+  useEffect(() => {
+    // Initial roll when component mounts
+    rollDice();
+  }, []); // Empty dependency array means this effect runs once on mount
+
+  // useEffect to calculate sum whenever dice values change
+  useEffect(() => {
+    const newSum = diceValues[0] + diceValues[1] + 2; // Adding 2 because values are 0-5, but dice are 1-6
+    setSum(newSum);
+  }, [diceValues]); // This effect runs whenever diceValues changes
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="App">
+      <div className="dice-container">
+        <Dice value={diceValues[0]} />
+        <Dice value={diceValues[1]} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <button onClick={rollDice}>Roll Dice</button>
+      <p>Sum: {sum}</p>
+    </div>
+  );
 }
-
-export default App
