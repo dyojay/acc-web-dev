@@ -23,7 +23,6 @@ a:hover {
 }
 
 body {
-  background-color: #646cff;
   margin: 0;
   display: flex;
   place-items: center;
@@ -34,13 +33,6 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
-}
-P{
-  font-size: 1.2em;
-}
-
-.dice-container{
-  font-size: 12em;
 }
 
 button {
@@ -73,12 +65,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
-.dice-container {
-  display: flex;
-  padding: 0 10px; /* Adjust these values as needed */
-}
-
-.dice-container > * {
-  margin: 0 10px; /* Adjust these values as needed */
 }

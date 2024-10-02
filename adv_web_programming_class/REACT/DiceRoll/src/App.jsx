@@ -5,11 +5,22 @@ import "./App.css";
 
 export default function App() {
   const [diceValues, setDiceValues] = useState([0, 0]);
-  const [sum, setSum] = useState(0);
+  const [sum, setSum] = useState(2);
+  const [isRattling, setIsRattling] = useState([false,false]);
+
 
   const rollDice = () => {
-    const newValues = [generateRandoNum(), generateRandoNum()];
+    setIsRattling([true,false]);
+    setTimeout(()=> setIsRattling([true,true]), 50);
+    setTimeout(()=>{
+      const newValues = [
+        generateRandoNum(), 
+        generateRandoNum()
+      ];
     setDiceValues(newValues);
+    setIsRattling([false,false]);
+    }, 500);
+    
   };
 
   // useEffect to handle initial roll and sum calculation
@@ -27,11 +38,14 @@ export default function App() {
   return (
     <div className="App">
       <div className="dice-container">
-        <Dice value={diceValues[0]} />
-        <Dice value={diceValues[1]} />
+      <Dice value={diceValues[0]} isRattling={isRattling[0]} />
+      <Dice value={diceValues[1]} isRattling={isRattling[1]} />
       </div>
-      <button onClick={rollDice}>Roll Dice</button>
+      <button onClick={rollDice}>
+        Roll Dice
+      </button>
       <p>Sum: {sum}</p>
+
     </div>
   );
 }

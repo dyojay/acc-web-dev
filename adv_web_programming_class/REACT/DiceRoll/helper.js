@@ -3,7 +3,7 @@ import React from "react";
 
 
 export function generateRandoNum() {
-    return Math.floor(Math.random() * 6);
+    return Math.floor(Math.random() * 5)+1;
   }
   
   // Array of dice face names
