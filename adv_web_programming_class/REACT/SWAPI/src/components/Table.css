@@ -1,0 +1,35 @@
+.star-wars-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    background-color: #4b0303;
+    opacity: 75%;
+  }
+  
+  .star-wars-table caption {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #f3b302;
+  }
+  
+  .star-wars-table th,
+  .star-wars-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .star-wars-table th {
+    background-color: #040300;
+    font-weight: bold;
+    color: hsl(0, 0%, 100%);
+  }
+  
+  .star-wars-table tbody tr:nth-child(even) {
+    background-color: #000000;
+  }
+  
+  .star-wars-table tbody tr:hover {
+    background-color: #000000;
+  }
