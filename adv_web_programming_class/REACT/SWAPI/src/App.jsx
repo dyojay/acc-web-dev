@@ -1,8 +1,8 @@
-import React from 'react';
-import { useState } from 'react';
+import * as React from 'react';
 import './App.css';
 import { Button, Stack } from '@mui/material';
 import Table from './components/Table';
+import {useState} from "react";
 
 function App() {
   const [showTable, setShowTable] = useState(false);

@@ -13,6 +13,7 @@ const Table = () => {
         const response = await axios.get('https://swapi.dev/api/people/');
         setData(response.data.results);
         setIsLoading(false);
+        // eslint-disable-next-line no-unused-vars
       } catch (error) {
         setError('An error occurred while fetching data');
         setIsLoading(false);
