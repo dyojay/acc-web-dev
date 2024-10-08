@@ -1,4 +1,4 @@
-import { styled, alpha } from '@mui/material/styles';
+import {styled, alpha} from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -7,11 +7,15 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import {useState} from "react";
+import React, {useState} from "react";
 import axios from 'axios';
+import {Link, Route, Routes} from "react-router-dom";
+import Home from "./Home.jsx";
+import Error from "./Error.jsx";
+import Results from "./Results.jsx";
 
 
-const Search = styled('div')(({ theme }) => ({
+const Search = styled('div')(({theme}) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -26,7 +30,7 @@ const Search = styled('div')(({ theme }) => ({
     },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled('div')(({theme}) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
@@ -36,7 +40,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     justifyContent: 'center',
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
+const StyledInputBase = styled(InputBase)(({theme}) => ({
     color: 'inherit',
     width: '100%',
     '& .MuiInputBase-input': {
@@ -55,15 +59,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 export default function NavBar() {
-    const[searchData, setSearchData]= useState("")
+    const [searchData, setSearchData] = useState("")
 
-    const handleChange = (event) =>{
+    const handleChange = (event) => {
         //update search everytime there is a userstate change
         setSearchData(event.target.value)
         console.log(searchData)
     }
-    const handleKeyDown=(event)=> {
-        if(event.key === "Enter"){
+    const handleKeyDown = (event) => {
+        if (event.key === "Enter") {
             console.log("Running Search for: '", searchData)
 
             const options = {
@@ -89,11 +93,8 @@ export default function NavBar() {
     }
 
 
-
-
-
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{flexGrow: 1}}>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
@@ -101,25 +102,25 @@ export default function NavBar() {
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
-                        sx={{ mr: 2 }}
+                        sx={{mr: 2}}
                     >
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
                     <Typography
                         variant="h6"
                         noWrap
                         component="div"
-                        sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                        sx={{flexGrow: 1, display: {xs: 'none', sm: 'block'}}}
                     >
                         MUI
                     </Typography>
                     <Search>
                         <SearchIconWrapper>
-                            <SearchIcon />
+                            <SearchIcon/>
                         </SearchIconWrapper>
                         <StyledInputBase
                             placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
+                            inputProps={{'aria-label': 'search'}}
                             //Onchange to make sure the UseState reflect the data reflecting what is being used
                             value={searchData}
                             onChange={handleChange}
@@ -132,4 +133,19 @@ export default function NavBar() {
         </Box>
     );
 }
-
+//  Need to use this routing scheme to make a grid like layout for search results 2 separate apis one for now playing and another for search
+// <div className='App'>
+//     <div className="container">
+//         <ul>
+//             <li><Link to="/home">Home</Link></li>
+//             <li><Link to="/about">About</Link></li>
+//             <li><Link to="/contact">Contact</Link></li>
+//         </ul>
+//         <hr/>
+//         <Routes>
+//             <Route path="/home" element={<Home/>}/>
+//             <Route path="/about" element={<Error/>}/>
+//             <Route path="/contact" element={<Results/>}/>
+//         </Routes>
+//     </div>
+// </div>

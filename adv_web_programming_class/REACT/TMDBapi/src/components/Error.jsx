@@ -1,9 +1,9 @@
 import React from "react";
 
-const About =()=>{
+const Error =()=>{
     return (
         <h1>About Component</h1>
     )
 }
 
-export default About;
+export default Error;

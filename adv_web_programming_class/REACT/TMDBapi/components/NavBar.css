@@ -1,0 +1,29 @@
+.card {
+    background-color: #fff; /* White background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1); /* Subtle shadow */
+    overflow: hidden; /* Prevents overflow of content */
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+.card:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.card img {
+    width: 100%; /* Full width image */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.card-content {
+    padding: 15px; /* Padding around text */
+}
+
+.card-title {
+    font-size: 1.5em; /* Larger title font size */
+    margin-bottom: 10px; /* Space below title */
+}
+
+.card-rating {
+    color: #FFD700; /* Gold color for ratings */
+}

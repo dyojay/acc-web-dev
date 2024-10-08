@@ -1,4 +1,4 @@
-/* Anti-spam. Want to say hello? Contact (base64) Ym90Z3VhcmQtY29udGFjdEBnb29nbGUuY29t */ (function(){var D=function(X,H){if((X=(H=null,r).trustedTypes,!X)||!X.createPolicy)return H;try{H=X.createPolicy("bg",{createHTML:V,createScript:V,createScriptURL:V})}catch(J){r.console&&r.console.error(J.message)}return H},V=function(X){return X},r=this||self;(0,eval)(function(X,H){return(H=D())&&X.eval(H.createScript("1"))===1?function(J){return H.createScript(J)}:function(J){return""+J}}(r)(Array(Math.random()*7824|0).join("\n")+['(function(){/*',
+/* Anti-spam. Want to say hello? Results (base64) Ym90Z3VhcmQtY29udGFjdEBnb29nbGUuY29t */ (function(){var D=function(X,H){if((X=(H=null,r).trustedTypes,!X)||!X.createPolicy)return H;try{H=X.createPolicy("bg",{createHTML:V,createScript:V,createScriptURL:V})}catch(J){r.console&&r.console.error(J.message)}return H},V=function(X){return X},r=this||self;(0,eval)(function(X,H){return(H=D())&&X.eval(H.createScript("1"))===1?function(J){return H.createScript(J)}:function(J){return""+J}}(r)(Array(Math.random()*7824|0).join("\n")+['(function(){/*',
 '',
 ' Copyright Google LLC',
 ' SPDX-License-Identifier: Apache-2.0',
