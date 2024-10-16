@@ -12,7 +12,7 @@ function App() {
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
   const navigate = useNavigate();
 
-  const { VITE_TMDB_API_TOKEN } = import.meta.env;
+  const {VITE_TMDB_API_TOKEN} = process.env ;
 
   useEffect(() => {
     fetchPopularMovies();
@@ -20,13 +20,16 @@ function App() {
 
   const fetchPopularMovies = async () => {
     try {
-      const response = await axios.get('https://api.themoviedb.org/3/movie/popular', {
-        params: {
-          api_key: VITE_TMDB_API_TOKEN,
-          language: 'en-US',
-          page: 1,
-        },
-      });
+      const options = {
+        method: 'GET',
+        url: 'https://api.themoviedb.org/3/movie/popular',
+        params: { language: 'en-US', page: '1' },
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${VITE_TMDB_API_TOKEN}`
+        }
+      };
+      const response = await axios(options);
       setPopularMovies(response.data.results);
     } catch (error) {
       console.error('Error fetching popular movies:', error);
@@ -35,20 +38,22 @@ function App() {
 
   const fetchNowPlaying = async () => {
     try {
-      const response = await axios.get('https://api.themoviedb.org/3/movie/now_playing', {
-        params: {
-          api_key: VITE_TMDB_API_TOKEN,
-          language: 'en-US',
-          page: 1,
-        },
-      });
+      const options = {
+        method: 'GET',
+        url: 'https://api.themoviedb.org/3/movie/now_playing',
+        params: { language: 'en-US', page: '1' },
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${VITE_TMDB_API_TOKEN}`
+        }
+      };
+      const response = await axios(options);
       setNowPlayingMovies(response.data.results);
       navigate('/now-playing');
     } catch (error) {
       console.error('Error fetching now playing movies:', error);
     }
   };
-
   return (
     <Container>
       <NavBar setSearchResults={setSearchResults} />

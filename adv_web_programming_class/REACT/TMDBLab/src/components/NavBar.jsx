@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, InputBase, Button } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import Error from 'Error.jsx' ;
+
 import axios from 'axios';
 
 const Search = styled('div')(({ theme }) => ({
@@ -32,24 +34,31 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-
+const {VITE_TMDB_API_TOKEN} = process.env ;
 function NavBar({ setSearchResults }) {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
-  const { VITE_TMDB_API_TOKEN } = import.meta.env;
+  
 
   const handleSearch = async () => {
     if (searchQuery.trim()) {
       try {
-        const response = await axios.get('https://api.themoviedb.org/3/search/movie', {
+        const options = {
+          method: 'GET',
+          url: 'https://api.themoviedb.org/3/search/movie',
           params: {
-            api_key: VITE_TMDB_API_TOKEN,
             query: searchQuery,
             language: 'en-US',
-            page: 1,
-            include_adult: false
+            page: '1',
+            include_adult: 'false'
+          },
+          headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${VITE_TMDB_API_TOKEN}`
           }
-        });
+        };
+  
+        const response = await axios(options);
         setSearchResults(response.data.results);
         navigate('/search');
       } catch (error) {
@@ -58,7 +67,6 @@ function NavBar({ setSearchResults }) {
       }
     }
   };
-
   return (
     <AppBar position="static">
       <Toolbar>
