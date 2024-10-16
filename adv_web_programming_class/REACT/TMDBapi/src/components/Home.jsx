@@ -1,9 +1,8 @@
 import React from "react";
-
-const Results =()=>{
+const Home =()=>{
     return(
-        <h1>Home</h1>
+        <>  </>
     )
 }
 
-export default Results;
+export default Home;

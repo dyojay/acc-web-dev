@@ -1,18 +1,17 @@
-// App.js
-import React from "react";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import Error from "./components/Error.jsx";
 import Results from "./components/Results.jsx";
 import MovieCard from "./components/MovieCard";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { useState } from "react";
+import {performSearch} from "./components/NavaBar.jsx"
+import Button from '@mui/material/Button';
+import ParticleBackground from "./components/ParticleBackground.jsx";
 import axios from "axios";
 import "./App.css";
-import { AppBar } from '@mui/material';
-import Button from '@mui/material/Button';
 
 function App() {
-  const { VITE_TMDB_API_TOKEN } = process.env;
+  const { VITE_TMDB_API_TOKEN } = import.meta.env;
   const [movies, setMovies] = useState([]);
 
   const handleClick = () => {
@@ -31,7 +30,7 @@ function App() {
       .then(response => {
         console.log(response);
         let movieArray = response.data.results.map((movie) => (
-          <MovieCard doggy={movie} key={movie.id} className="movie-card" />
+          <MovieCard movie={movie} key={movie.id} className="movie-card" />
         ));
         setMovies(movieArray);
       })
@@ -39,23 +38,25 @@ function App() {
   };
 
   return (
-    <Router>
-      <div className='App'>
-        <div className="container">
-          <AppBar/>
-          <hr />
-          <Routes>
-            <Route path="/home" element={<Home />} />
-            <Route path="/error" element={<Error />} />
-            <Route path="/results" element={<Results />} />
-          </Routes>
+    <div className='App-Container'>
+      <Router>
+        <NavBar />
+        <div className='App'>
+          <ParticleBackground />
+          <div className="container">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/error" element={<Error />} />
+              <Route path="/results" element={<Results />} />
+            </Routes>
+          </div>
+          <Button onClick={handleClick} variant="outlined">Now Playing</Button>
+          <div className="movie-container">
+            {movies}
+          </div>
         </div>
-        <Button onClick={handleClick} variant="contained" color="success">Now Playing</Button>
-        <div className="movie-container">
-          {movies}
-        </div>
-      </div>
-    </Router>
+      </Router>
+    </div>
   );
 }
 
