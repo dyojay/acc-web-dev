@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, InputBase, Button } from '@mui/material';
+import { AppBar, Toolbar, Typography, InputBase, Button,Link } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import Error from 'Error.jsx' ;
 
 import axios from 'axios';
 
@@ -59,8 +58,12 @@ function NavBar({ setSearchResults }) {
         };
   
         const response = await axios(options);
+        if(response.data.results.length ===0){
+          navigate('./Error');
+        } else{
         setSearchResults(response.data.results);
         navigate('/search');
+        }
       } catch (error) {
         console.error('Error searching movies:', error);
         navigate('/error');
@@ -68,13 +71,21 @@ function NavBar({ setSearchResults }) {
     }
   };
   return (
-    <AppBar position="static">
-      <Toolbar>
+    <AppBar position="sticky">
+      <Toolbar >
         <Typography
           variant="h6"
           noWrap
-          component="div"
-          sx={{ display: { xs: 'none', sm: 'block' } }}
+          component="a"
+          href="/"
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+            textDecoration: 'none',
+            color: 'inherit',
+            '&:hover': {
+              textDecoration: 'none',
+            },
+          }}
         >
           TMDB Movie App
         </Typography>

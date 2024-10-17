@@ -1,9 +1,10 @@
 import React from 'react';
 import { Typography, Container } from '@mui/material';
+import '../App.css';
 
 function Error() {
   return (
-    <Container>
+    <Container  className='OopsContainer' >
       <Typography variant="h4" component="h1" gutterBottom>
         Oops! Something went wrong.
       </Typography>

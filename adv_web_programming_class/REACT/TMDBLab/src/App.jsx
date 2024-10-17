@@ -55,7 +55,7 @@ function App() {
     }
   };
   return (
-    <Container>
+    <Container className="MainNavContainer">
       <NavBar setSearchResults={setSearchResults} />
       <Button variant="contained" onClick={fetchNowPlaying} style={{ margin: '20px 0' }}>
         Now Playing
@@ -64,7 +64,7 @@ function App() {
         <Route path="/" element={<Results movies={popularMovies} title="Popular Movies" />} />
         <Route path="/search" element={<Results movies={searchResults} title="Search Results" />} />
         <Route path="/now-playing" element={<Results movies={nowPlayingMovies} title="Now Playing" />} />
-        <Route path="/error" element={<Error />} />
+        <Route path="/Error" element={<Error />} />
       </Routes>
     </Container>
   );
