@@ -4,7 +4,7 @@ import Home from "./components/Home";
 import Error from "./components/Error.jsx";
 import Results from "./components/Results.jsx";
 import MovieCard from "./components/MovieCard";
-import {performSearch} from "./components/NavaBar.jsx"
+// import {performSearch} from "./components/NavaBar.jsx"
 import Button from '@mui/material/Button';
 import ParticleBackground from "./components/ParticleBackground.jsx";
 import axios from "axios";
