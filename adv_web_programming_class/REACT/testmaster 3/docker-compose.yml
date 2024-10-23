@@ -1,0 +1,16 @@
+services:
+  postgres-db:
+    container_name: testmaster
+    image: postgres # use latest official postgres version
+    restart: always
+    environment:
+      POSTGRES_USER: testm_dev
+      POSTGRES_PASSWORD: testm_dev12
+      POSTGRES_DB: testmaster
+      POSTGRES_HOST_AUTH_METHOD: password
+    ports:
+      - "5436:5432"
+
+volumes:
+  postgresql_data:
+    driver: local

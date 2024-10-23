@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: testmaster
+
+  datasource:
+    url: jdbc:postgresql://localhost:5436/testmaster
+    driver-class-name: org.postgresql.Driver
+    username: testm_dev
+    password: testm_dev12
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
