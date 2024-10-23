@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { extendTheme, styled } from '@mui/material/styles';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AddAlertIcon from '@mui/icons-material/AddAlert';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LayersIcon from '@mui/icons-material/Layers';
@@ -13,7 +13,7 @@ import Grid from '@mui/material/Grid2';
 const NAVIGATION: Navigation = [
     {
         kind: 'header',
-        title: 'Main items',
+        title: 'Welcome', //put user object right after welcome
     },
     {
         segment: 'dashboard',
@@ -21,37 +21,37 @@ const NAVIGATION: Navigation = [
         icon: <DashboardIcon />,
     },
     {
-        segment: 'orders',
-        title: 'Orders',
-        icon: <ShoppingCartIcon />,
+        segment: 'notifications',
+        title: 'Notifications',
+        icon: <AddAlertIcon />,
     },
     {
         kind: 'divider',
     },
     {
         kind: 'header',
-        title: 'Analytics',
+        title: 'Projects',
     },
     {
-        segment: 'reports',
-        title: 'Reports',
+        segment: 'test',
+        title: 'Tests',
         icon: <BarChartIcon />,
         children: [
             {
-                segment: 'sales',
-                title: 'Sales',
+                segment: 'approved',
+                title: 'Approved',
                 icon: <DescriptionIcon />,
             },
             {
-                segment: 'traffic',
-                title: 'Traffic',
+                segment: 'pending',
+                title: 'Pending',
                 icon: <DescriptionIcon />,
             },
         ],
     },
     {
-        segment: 'integrations',
-        title: 'Integrations',
+        segment: 'tasks',
+        title: 'Tasks',
         icon: <LayersIcon />,
     },
 ];
