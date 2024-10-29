@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  postgres-db:
+    container_name: test_manager
+    image: postgres # use latest official postgres version
+    restart: always
+    environment:
+      POSTGRES_USER: dev_young
+      POSTGRES_PASSWORD: dev_young12
+      POSTGRES_DB: test_manager
+      POSTGRES_HOST_AUTH_METHOD: password
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgresql_data:
+    driver: local

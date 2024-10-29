@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: test_manager
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test_manager
+    driver-class-name: org.postgresql.Driver
+    username: dev_young
+    password: dev_young12
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    jpa:
+      generate-ddl: false
+      hibernate:
+        ddl-auto: none
+  server:
+    port: 8080
