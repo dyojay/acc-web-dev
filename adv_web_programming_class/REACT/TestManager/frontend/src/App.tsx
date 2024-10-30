@@ -1,11 +1,12 @@
 
 import './App.css'
+import DashBoard from "./components/DashBoard.tsx";
 
 function App() {
 
   return (
     <>
-     <h1>Hello Me!!!</h1>
+     <DashBoard/>
     </>
   )
 }
