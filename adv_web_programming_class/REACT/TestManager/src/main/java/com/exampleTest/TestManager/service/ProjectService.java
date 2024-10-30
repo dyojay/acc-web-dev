@@ -5,6 +5,8 @@ import com.exampleTest.TestManager.repository.ProjectRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @AllArgsConstructor
 @Service
@@ -15,5 +17,24 @@ public class ProjectService {
     public Project createProject(Project project){
         return projectRepository.save(project);
     }
+    public List<Project> getAllProjects(){
+        return projectRepository.findAll();
+    }
+    public Project getProjectById(Long id){
+        return projectRepository.findById(id).orElse(null);
+    }
+    public void deleteProjectById(Long id){
+        projectRepository.deleteById(id);
+    }
+    public Project updateProject(Long id, Project updateProject){
+        Project existingProject = projectRepository.findById(id).orElse(null);
+        assert existingProject != null;
+        existingProject.setProjectName(updateProject.getProjectName());
+        existingProject.setProjectDescription(updateProject.getProjectDescription());
+        existingProject.setProjectStatus(updateProject.getProjectStatus());
+        return projectRepository.save(existingProject);
+    }
+
+
 
 }
