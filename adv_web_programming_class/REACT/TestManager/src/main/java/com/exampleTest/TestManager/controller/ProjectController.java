@@ -3,7 +3,6 @@ package com.exampleTest.TestManager.controller;
 
 import com.exampleTest.TestManager.entity.Project;
 import com.exampleTest.TestManager.service.ProjectService;
-import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

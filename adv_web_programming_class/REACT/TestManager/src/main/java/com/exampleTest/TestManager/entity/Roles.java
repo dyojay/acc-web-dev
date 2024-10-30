@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -19,6 +17,8 @@ public class Roles {
     private Long id;
 
     private String fullName;
+
+    private String Role;
 
     private String email;
 
