@@ -1,15 +1,12 @@
 package com.exampleTest.TestManager.service;
 
 
-import com.exampleTest.TestManager.entity.Project;
 import com.exampleTest.TestManager.entity.Task;
 import com.exampleTest.TestManager.repository.TaskRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @AllArgsConstructor
 @Service
