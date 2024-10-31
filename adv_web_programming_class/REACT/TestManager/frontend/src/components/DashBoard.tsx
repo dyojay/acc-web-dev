@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { extendTheme, styled } from '@mui/material/styles';
+import { extendTheme, Theme } from '@mui/material/styles';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import BarChartIcon from '@mui/icons-material/BarChart';
@@ -9,6 +9,14 @@ import { AppProvider, Navigation, Router } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { PageContainer } from '@toolpad/core/PageContainer';
 import Grid from '@mui/material/Grid2';
+import { Box } from "@mui/material";
+import RoleAssigned from "./RoleAssigned";
+import {Dashboard} from "@mui/icons-material";
+
+// Import other components you want to render
+// import DashboardContent from "./DashboardContent";
+// import ReportsContent from "./ReportsContent";
+// import IntegrationsContent from "./IntegrationsContent";
 
 const NAVIGATION: Navigation = [
     {
@@ -21,8 +29,8 @@ const NAVIGATION: Navigation = [
         icon: <DashboardIcon />,
     },
     {
-        segment: 'orders',
-        title: 'Orders',
+        segment: 'roles',
+        title: 'Roles',
         icon: <ShoppingCartIcon />,
     },
     {
@@ -56,7 +64,7 @@ const NAVIGATION: Navigation = [
     },
 ];
 
-const demoTheme = extendTheme({
+const demoTheme: Theme = extendTheme({
     colorSchemes: { light: true, dark: true },
     colorSchemeSelector: 'class',
     breakpoints: {
@@ -84,19 +92,28 @@ function useDemoRouter(initialPath: string): Router {
     return router;
 }
 
-const Skeleton = styled('div')<{ height: number }>(({ theme, height }) => ({
-    backgroundColor: theme.palette.action.hover,
-    borderRadius: theme.shape.borderRadius,
-    height,
-    content: '" "',
-}));
+interface DashBoardProps {
+    window?: () => Window;
+}
 
-export default function DashBoard(props: any) {
-    const { window } = props;
-
+export default function DashBoard({ window }: DashBoardProps) {
     const router = useDemoRouter('/dashboard');
 
-    // Remove this const when copying and pasting into your project.
+    const renderContent = () => {
+        switch (router.pathname) {
+            case '/dashboard':
+                return <Dashboard />;
+            case '/roles':
+                return <RoleAssigned />;
+            // case '/reports':
+            //     return <ReportsContent />;
+            // case '/integrations':
+            //     return <IntegrationsContent />;
+            default:
+                return <div>Welcome to the Dashboard!</div>;
+        }
+    };
+
     const demoWindow = window ? window() : undefined;
 
     return (
@@ -106,45 +123,22 @@ export default function DashBoard(props: any) {
             theme={demoTheme}
             window={demoWindow}
         >
-            <DashboardLayout>
-                <PageContainer>
-                    <Grid container spacing={1}>
-                        <Grid size={5} />
-                        <Grid size={12}>
-                            <Skeleton height={14} />
+            <Box sx={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                overflow: 'hidden',
+            }}>
+                <DashboardLayout>
+                    <PageContainer>
+                        <Grid container spacing={1}>
+                            {renderContent()}
                         </Grid>
-                        <Grid size={12}>
-                            <Skeleton height={14} />
-                        </Grid>
-                        <Grid size={4}>
-                            <Skeleton height={100} />
-                        </Grid>
-                        <Grid size={8}>
-                            <Skeleton height={100} />
-                        </Grid>
-
-                        <Grid size={12}>
-                            <Skeleton height={150} />
-                        </Grid>
-                        <Grid size={12}>
-                            <Skeleton height={14} />
-                        </Grid>
-
-                        <Grid size={3}>
-                            <Skeleton height={100} />
-                        </Grid>
-                        <Grid size={3}>
-                            <Skeleton height={100} />
-                        </Grid>
-                        <Grid size={3}>
-                            <Skeleton height={100} />
-                        </Grid>
-                        <Grid size={3}>
-                            <Skeleton height={100} />
-                        </Grid>
-                    </Grid>
-                </PageContainer>
-            </DashboardLayout>
+                    </PageContainer>
+                </DashboardLayout>
+            </Box>
         </AppProvider>
     );
 }
