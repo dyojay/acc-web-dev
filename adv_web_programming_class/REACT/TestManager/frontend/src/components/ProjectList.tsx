@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {getAllProjects} from "../Client.ts";
 import {
     TextField,
     List,
@@ -17,12 +18,21 @@ interface Project {
     id: number;
     projectName: string;
     projectDescription: string;
-    projectEndDate: Date;
+    projectEndDate: Date| null;
     projectStatus: string;
 }
 
 const ProjectList: React.FC = () => {
-    const [projects, setProjects] = useState<Project[]>([]);
+    const [projects, setProjects] = useState<Project[]>([])
+    const listAllProjects = async () => {
+        getAllProjects()
+            .then((response)=>{
+                setProjects(response.data);
+            })
+            .catch((error)=>{
+                console.log(error);
+            });
+    };
     const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
@@ -38,7 +48,7 @@ const ProjectList: React.FC = () => {
         setIsLoading(true);
         setError(null);
         try{
-            const response = await fetch(`http://localhost:8080/api/projects/${searchTerm}`);
+            const response = await fetch(`http://localhost:8080/api/projects`);
             if (!response.ok) {
                 throw Error('Failed to fetch projects');
             }
