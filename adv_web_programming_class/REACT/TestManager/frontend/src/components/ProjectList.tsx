@@ -24,16 +24,8 @@ interface Project {
 
 const ProjectList: React.FC = () => {
     const [projects, setProjects] = useState<Project[]>([])
-    const listAllProjects = async () => {
-        getAllProjects()
-            .then((response)=>{
-                setProjects(response.data);
-            })
-            .catch((error)=>{
-                console.log(error);
-            });
-    };
     const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
+    //____________________________________________________________
     const [searchTerm, setSearchTerm] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
     const [newProjectName, setNewProjectName] = useState('');
@@ -47,14 +39,10 @@ const ProjectList: React.FC = () => {
     const fetchProjects = async () => {
         setIsLoading(true);
         setError(null);
-        try{
-            const response = await fetch(`http://localhost:8080/api/projects`);
-            if (!response.ok) {
-                throw Error('Failed to fetch projects');
-            }
-            const data = await response.json();
-            setProjects(data);
-            } catch (error) {
+        try {
+            const response = await getAllProjects();
+            setProjects(response.data);
+        } catch (error) {
             setError("Error occurred while fetching projects");
             console.error(error);
             } finally {
