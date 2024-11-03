@@ -1,22 +1,22 @@
 import * as React from 'react';
 import { extendTheme, Theme } from '@mui/material/styles';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import DescriptionIcon from '@mui/icons-material/Description';
-import LayersIcon from '@mui/icons-material/Layers';
+import AssignmentIcon from '@mui/icons-material/Assignment';import BarChartIcon from '@mui/icons-material/BarChart';
+import TaskIcon from '@mui/icons-material/Task';
 import { AppProvider, Navigation, Router } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { PageContainer } from '@toolpad/core/PageContainer';
 import Grid from '@mui/material/Grid2';
 import { Box } from "@mui/material";
-import RoleAssigned from "./RoleAssigned";
-import {Dashboard} from "@mui/icons-material";
+import RoleAssigned from "./RoleAssigned.tsx";
+import {Dashboard, RecentActors} from "@mui/icons-material";
+import ProjectList from "./ProjectList.tsx";
+import TaskList from "./TaskList.tsx";
+// import  TaskList from "./TaskList.tsx";
 
 // Import other components you want to render
 // import DashboardContent from "./DashboardContent";
 // import ReportsContent from "./ReportsContent";
-// import IntegrationsContent from "./IntegrationsContent";
 
 const NAVIGATION: Navigation = [
     {
@@ -31,7 +31,7 @@ const NAVIGATION: Navigation = [
     {
         segment: 'roles',
         title: 'Roles',
-        icon: <ShoppingCartIcon />,
+        icon: <RecentActors />,
     },
     {
         kind: 'divider',
@@ -41,27 +41,23 @@ const NAVIGATION: Navigation = [
         title: 'Analytics',
     },
     {
-        segment: 'reports',
-        title: 'Reports',
+        segment: 'Teams',
+        title: 'Teams',
         icon: <BarChartIcon />,
         children: [
             {
-                segment: 'sales',
-                title: 'Sales',
-                icon: <DescriptionIcon />,
+                segment: 'projects',
+                title: 'Projects',
+                icon: <AssignmentIcon />,
             },
             {
-                segment: 'traffic',
-                title: 'Traffic',
-                icon: <DescriptionIcon />,
+                segment: 'tasks',
+                title: 'Tasks',
+                icon: <TaskIcon />,
             },
         ],
     },
-    {
-        segment: 'integrations',
-        title: 'Integrations',
-        icon: <LayersIcon />,
-    },
+
 ];
 
 const demoTheme: Theme = extendTheme({
@@ -105,10 +101,10 @@ export default function DashBoard({ window }: DashBoardProps) {
                 return <Dashboard />;
             case '/roles':
                 return <RoleAssigned />;
-            // case '/reports':
-            //     return <ReportsContent />;
-            // case '/integrations':
-            //     return <IntegrationsContent />;
+            case '/projects':
+                return <ProjectList />;
+            case '/tasks':
+                return <TaskList/>;
             default:
                 return <div>Welcome to the Dashboard!</div>;
         }
