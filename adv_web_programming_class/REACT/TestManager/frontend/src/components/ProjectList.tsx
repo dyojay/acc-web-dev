@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { createProject ,getAllProjects, getProjectById, getTasksByProjectId, updateTask } from "../Client.ts";
+import {createProject, getAllProjects, getTasksByProjectId, Project, updateTask} from "../Client.ts";
 import {
     TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions,
     Box, Typography, CircularProgress, Table, TableBody, TableCell,
-    TableContainer, TableHead, TableRow, Paper, List, ListItem, ListItemText, FormControl, InputLabel, Select, MenuItem
+    TableContainer, TableHead, TableRow, Paper,FormControl, InputLabel, Select, MenuItem
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import TaskList from "./TaskList.tsx";
 
-
-interface Project {
-    id: number;
-    projectName: string;
-    projectDescription: string;
-    projectEndDate: Date | null;
-    projectStatus: string;
-    roles: Role[];
+interface ProjectListProps {
+    projects: Project[];
+    selectProject: (project: Project) => void;
 }
+
 
 interface Task {
     id: number;
@@ -29,28 +24,24 @@ interface Task {
 
 }
 
-interface Role {
-    id: number;
-    fullName: string;
-    Role: string;
-    email: string;
-}
-
-const ProjectList: React.FC = () => {
+ const ProjectList: React.FC<ProjectListProps> = ({ selectProject }) => {
     const [projects, setProjects] = useState<Project[]>([]);
     const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
+    //-----------------------------------------------------------------
     const [projectName, setProjectName] = useState('');
     const [projectDescription, setProjectDescription] = useState('');
     const [projectEndDate, setProjectEndDate] = useState<Date | null>(null);
     const [projectStatus, setProjectStatus] = useState('');
-    const [loading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+    //-----------------------------------------------------------------
     const [tasks, setTasks] = useState<Task[]>([]);
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+    //-----------------------------------------------------------------
     const [openTaskDialog, setOpenTaskDialog] = useState(false);
+    const [loading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         fetchProjects();
@@ -79,61 +70,52 @@ const ProjectList: React.FC = () => {
         );
     }, [searchTerm, projects]);
 
+//Project Handlers-------------------------------------------------------------------------------------------
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
     };
 
-    const handleAddProject = async () => {
-        if (projectName.trim()) {
-            try {
-                const newProject = {
-                    projectName: projectName.trim(),
-                    projectDescription,
-                    projectEndDate,
-                    projectStatus
-                };
-                const response = await createProject();
-                setProjects([...projects, response.data]);
-                setProjectName('');
-                setProjectDescription('');
-                setProjectEndDate(null);
-                setProjectStatus('');
-                setOpenDialog(false);
-            } catch (error) {
-                console.error('Error Adding New Project', error);
-            }
-        }
-    };
+     const handleAddProject = async () => {
+         if (projectName.trim()) {
+             try {
+                 const newProject = {
+                     projectName: projectName.trim(),
+                     projectDescription,
+                     projectEndDate,
+                     projectStatus,
+                 };
+
+                 const response = await createProject(newProject);
+
+                 if (response.data) {
+                     setProjects(prevProjects => [...prevProjects, response.data]);
+                     // Reset form fields
+                     setProjectName('');
+                     setProjectDescription('');
+                     setProjectEndDate(null); // Assuming projectEndDate can be null
+                     setProjectStatus('');
+                     setOpenDialog(false);
+
+                 } else {
+                     throw new Error('Failed to add project');
+                 }
+             } catch (error) {
+                 console.error('Error Adding New Project', error);
+             }
+         } else {
+             console.log('Project name cannot be empty');
+         }
+     }
     const handleProjectClick = async (project: Project) => {
         setSelectedProject(project);
         try {
-            const response = await getTasksByProjectId(project.id);
+            const response = await getTasksByProjectId(0);
             setTasks(response.data);
         } catch (error) {
             console.error('Error fetching tasks', error);
         }
     };
-    const handleAddRole = async (projectId: number, roleName: string) => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/projects/${projectId}/Roles`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name: roleName }),
-            });
-            if (!response.ok) {
-                throw new Error('Failed to add role');
-            }
-            const newRole = await response.json();
-            setProjects(projects.map(p =>
-                p.id === projectId ? {...p, roles: [...p.roles, newRole]} : p
-            ));
-        } catch (error) {
-            console.error('Error Adding New Role', error);
-        }
-    };
-
+//Task Handlers-------------------------------------------------------------------
     const handleTaskClick = (task: Task) => {
         setSelectedTask(task);
         setOpenTaskDialog(true);
@@ -225,7 +207,6 @@ const ProjectList: React.FC = () => {
                             label="Due Date"
                             value={projectEndDate}
                             onChange={(newValue) => setProjectEndDate(newValue)}
-                            renderInput={(params) => <TextField {...params} fullWidth margin="dense" />}
                         />
                     </LocalizationProvider>
                     <FormControl fullWidth margin="dense">
@@ -296,32 +277,13 @@ const ProjectList: React.FC = () => {
                                 value={selectedTask.description}
                                 onChange={(e) => setSelectedTask({...selectedTask, description: e.target.value})}
                             />
-                            {/* Add more fields as needed */}
                         </Box>
                     )}
                 </DialogContent>
+
                 {selectedProject && (
-                    <Dialog open={Boolean(selectedProject)} onClose={() => setSelectedProject(null)}>
-                        <DialogTitle>{selectedProject.projectName}</DialogTitle>
-                        <DialogContent>
-                            <Typography variant="h6">Roles</Typography>
-                            <List>
-                                {selectedProject.roles.map(role => (
-                                    <ListItem key={role.id}>
-                                        <ListItemText primary={role.fullName} />
-                                    </ListItem>
-                                ))}
-                            </List>
-                            {/* Add a form to add new roles */}
-                        </DialogContent>
-                    </Dialog>
-                )}
-                {selectedProject && (
-                    <Dialog open={Boolean(selectedProject)} onClose={() => setSelectedProject(null)}>
+                    <Dialog open={Boolean(selectProject)} onClose={() => setSelectedProject(null)}>
                         <DialogTitle>{selectedProject.projectName} Tasks</DialogTitle>
-                        <DialogContent>
-                            <TaskList projectId={selectedProject.id} />
-                        </DialogContent>
                     </Dialog>
                 )}
                 <DialogActions>

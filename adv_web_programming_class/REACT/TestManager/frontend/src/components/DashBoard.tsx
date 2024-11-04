@@ -11,12 +11,6 @@ import { Box } from "@mui/material";
 import RoleAssigned from "./RoleAssigned.tsx";
 import {Dashboard, RecentActors} from "@mui/icons-material";
 import ProjectList from "./ProjectList.tsx";
-import TaskList from "./TaskList.tsx";
-// import  TaskList from "./TaskList.tsx";
-
-// Import other components you want to render
-// import DashboardContent from "./DashboardContent";
-// import ReportsContent from "./ReportsContent";
 
 const NAVIGATION: Navigation = [
     {
@@ -96,15 +90,16 @@ export default function DashBoard({ window }: DashBoardProps) {
     const router = useDemoRouter('/dashboard');
 
     const renderContent = () => {
+        console.log("Current pathname:", router.pathname);
         switch (router.pathname) {
+
             case '/dashboard':
                 return <Dashboard />;
             case '/roles':
                 return <RoleAssigned />;
-            case '/projects':
+            case 'api/projects':
                 return <ProjectList />;
-            case '/tasks':
-                return <TaskList/>;
+
             default:
                 return <div>Welcome to the Dashboard!</div>;
         }
