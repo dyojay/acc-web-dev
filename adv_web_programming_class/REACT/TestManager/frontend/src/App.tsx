@@ -1,18 +1,15 @@
-
-import './App.css'
-import { BrowserRouter as Router } from 'react-router-dom';
-import DashBoard from "./components/DashBoard.tsx";
-// import RoleAssigned from "./components/RoleAssigned.tsx";
-// import ProjectList from "./components/ProjectList.tsx";
+import { BrowserRouter } from 'react-router-dom';
+import DashBoard from './components/DashBoard';
+import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
-
-  return (
-    <Router>
-     <DashBoard/>
-      {/*<ProjectList/>*/}
-    </Router>
-  )
+    return (
+        <BrowserRouter>
+            <ErrorBoundary>
+                <DashBoard />
+            </ErrorBoundary>
+        </BrowserRouter>
+    );
 }
 
-export default App
+export default App;

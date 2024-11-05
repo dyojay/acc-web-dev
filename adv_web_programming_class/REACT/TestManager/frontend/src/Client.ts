@@ -1,6 +1,9 @@
 import axios from "axios";
+import {Role, Task} from "../types.ts";
 
 const BASE_URL = 'http://localhost:8080/api';
+
+// Interfaces
 export interface Project {
     id?: number;
     projectName: string;
@@ -8,28 +11,32 @@ export interface Project {
     projectEndDate: Date | null;
     projectStatus: string;
 }
-// interface Role {
-//     id: number;
-//     fullName: string;
-//     Role: string;
-//     email: string;
-// }
-interface Task {
-    id?: number;
-    name: string;
-    description: string;
-    status: string;
-    startTime: Date | null;
-    lastModified: Date | null;
-    projectName: Project;
-}
-//Projects api calls
+
+
+// Projects API calls
 export const createProject = (project: Project) =>
-    axios.post(`${BASE_URL}/api/projects`, project);export const getAllProjects = () => axios.get(`${BASE_URL}/projects`);
-// Task api Calls
+    axios.post(`${BASE_URL}/projects`, project);
+
+export const getAllProjects = () =>
+    axios.get(`${BASE_URL}/projects`);
+
+
+// Tasks API Calls
 export const createTask = (task: Omit<Task, 'id' | 'lastModified'>) =>
     axios.post<Task>(`${BASE_URL}/tasks`, task);
-export const getTasksByProjectId = (projectId: number) => axios.get(`${BASE_URL}/projects/${projectId}/tasks`);
-export const updateTask = (task: any) => axios.put(`${BASE_URL}/tasks/${task.id}`, task);
 
-//Roles api calls
+export const getTasksByProjectId = (id: number | undefined) =>
+    axios.get(`${BASE_URL}/projects/${id}/tasks`);
+
+export const updateTask = (task: Partial<Task> & { id: number }) =>
+    axios.put(`${BASE_URL}/tasks/${task.id}`, task);
+
+
+
+
+
+// Roles API calls
+export const createRole = (role: Omit<Role, 'id'>) =>
+    axios.post(`${BASE_URL}/roles`, role);
+export const getAllRoles = () =>
+    axios.get<Role[]>(`${BASE_URL}/roles`);

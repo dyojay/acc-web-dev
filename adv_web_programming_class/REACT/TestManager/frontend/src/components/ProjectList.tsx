@@ -8,10 +8,11 @@ import {
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import {useNavigate} from "react-router-dom";
 
-interface ProjectListProps {
+interface ProjectList{
     projects: Project[];
-    selectProject: (project: Project) => void;
+
 }
 
 
@@ -24,7 +25,7 @@ interface Task {
 
 }
 
- const ProjectList: React.FC<ProjectListProps> = ({ selectProject }) => {
+ const ProjectList = () => {
     const [projects, setProjects] = useState<Project[]>([]);
     const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -42,6 +43,7 @@ interface Task {
     const [openTaskDialog, setOpenTaskDialog] = useState(false);
     const [loading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+     const navigate = useNavigate();
 
     useEffect(() => {
         fetchProjects();
@@ -92,9 +94,9 @@ interface Task {
                      // Reset form fields
                      setProjectName('');
                      setProjectDescription('');
-                     setProjectEndDate(null); // Assuming projectEndDate can be null
+                     setProjectEndDate(null);
                      setProjectStatus('');
-                     setOpenDialog(false);
+                     setOpenDialog(true);
 
                  } else {
                      throw new Error('Failed to add project');
@@ -109,19 +111,19 @@ interface Task {
     const handleProjectClick = async (project: Project) => {
         setSelectedProject(project);
         try {
-            const response = await getTasksByProjectId(0);
+            const response = await getTasksByProjectId(project.id);
             setTasks(response.data);
         } catch (error) {
             console.error('Error fetching tasks', error);
         }
     };
 //Task Handlers-------------------------------------------------------------------
-    const handleTaskClick = (task: Task) => {
-        setSelectedTask(task);
-        setOpenTaskDialog(true);
-    };
+     const handleTaskClick = (projectId, taskId) => {
+         navigate(`/projects/${projectId}/tasks`, { state: { taskId } });
+     };
 
-    const handleTaskUpdate = async (updatedTask: Task) => {
+
+     const handleTaskUpdate = async (updatedTask: Task) => {
         try {
             await updateTask(updatedTask);
             setTasks(tasks.map(task => task.id === updatedTask.id ? updatedTask : task));
@@ -247,7 +249,7 @@ interface Task {
                                 {tasks.map((task) => (
                                     <TableRow
                                         key={task.id}
-                                        onClick={() => handleTaskClick(task)}
+                                        onClick={() => handleTaskClick(projectId,taskId)}
                                         style={{cursor: 'pointer'}}
                                     >
                                         <TableCell>{task.name}</TableCell>
@@ -280,12 +282,6 @@ interface Task {
                         </Box>
                     )}
                 </DialogContent>
-
-                {selectedProject && (
-                    <Dialog open={Boolean(selectProject)} onClose={() => setSelectedProject(null)}>
-                        <DialogTitle>{selectedProject.projectName} Tasks</DialogTitle>
-                    </Dialog>
-                )}
                 <DialogActions>
                     <Button onClick={() => setOpenTaskDialog(false)}>Cancel</Button>
                     <Button onClick={() => selectedTask && handleTaskUpdate(selectedTask)}>Save</Button>
@@ -293,6 +289,6 @@ interface Task {
             </Dialog>
         </Box>
     );
-};
+ };
 
 export default ProjectList;
