@@ -17,19 +17,20 @@ export interface Project {
 export const createProject = (project: Project) =>
     axios.post(`${BASE_URL}/projects`, project);
 
-export const getAllProjects = () =>
-    axios.get(`${BASE_URL}/projects`);
+export const getAllProjects = () => axios.get(`${BASE_URL}/projects`);
 
 
 // Tasks API Calls
-export const createTask = (task: Omit<Task, 'id' | 'lastModified'>) =>
-    axios.post<Task>(`${BASE_URL}/tasks`, task);
+export const createTask = (task: Partial <Task>) =>
+    axios.post<Task>(`${BASE_URL}/task`, task);
+
+export const getAllTask=()=> axios.get(`${BASE_URL}/task`);
 
 export const getTasksByProjectId = (id: number | undefined) =>
-    axios.get(`${BASE_URL}/projects/${id}/tasks`);
+    axios.get(`${BASE_URL}/projects/${id}/task`);
 
 export const updateTask = (task: Partial<Task> & { id: number }) =>
-    axios.put(`${BASE_URL}/tasks/${task.id}`, task);
+    axios.put(`${BASE_URL}/task/${task.id}`, task);
 
 
 

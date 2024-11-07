@@ -2,17 +2,101 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import {
     Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-    Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Select, MenuItem
+    Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Select, MenuItem, FormControl, InputLabel
 } from '@mui/material';
-import { getTasksByProjectId, updateTask } from '../Client';
+import {
+    createProject,
+    createTask,
+    getAllProjects,
+    getAllTask,
+    getTasksByProjectId,
+    Project,
+    updateTask
+} from '../Client';
 import { Task } from '../../types';
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 
 const TaskList: React.FC = () => {
     const { projectId } = useParams<{ projectId: string }>();
     const location = useLocation();
+
+
     const [tasks, setTasks] = useState<Task[]>([]);
     const [editingTask, setEditingTask] = useState<Task | null>(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const[error, setError] = useState<string | null>(null);
 
+
+    const [task,setTask] = useState<Task | null>(null);
+    const [filteredTask, setFilteredTask] = useState<Task[]>([]);
+    const [openTaskDialog, setOpenTaskDialog] = useState(false);
+
+
+    const [taskName, setTaskName] = useState('');
+    const [projectName, setProjectId] = useState('');
+    const [taskDescription, setTaskDescription] = useState('');
+
+
+    const [taskStartDate, setTaskStartDate] = useState<Date | null>(null);
+    const [taskStatus, setTaskStatus] = useState('');
+    const taskComplete =false;
+
+
+//get all
+    useEffect(() => {
+        fetchTask();
+    }, []);
+
+    const fetchTask = async () => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            console.log("testing route")
+            const response = await getAllTask();
+            setTask(response.data);
+                        console.log("testing route 1")
+
+        } catch (error) {
+            setError("Error occurred while fetching tasks");
+            console.error(error);
+        } finally {
+                                    console.log("testing route 2")
+
+            setIsLoading(false);
+        }
+    };
+
+//add task
+    const handleAddTask = async () => {
+                const newTask = {
+                    name: taskName,
+                    description: taskDescription,
+                    startDate: taskStartDate,
+                    status: taskStatus,
+                    projectId: projectId,
+                };
+
+                const response = await createTask(newTask);
+
+                if (response.data) {
+
+                    // -------Reset form fields
+                    setTaskName('');
+                    setTaskDescription('');
+                    setTaskStartDate(null);
+                    setTaskStatus('');
+                    setOpenTaskDialog(true);
+
+                } else {
+                    throw new Error('Failed to add task');
+                console.error('Error Adding New Task', error);
+            }
+    }
+
+// get by project id
     useEffect(() => {
         const fetchTasks = async () => {
             if (projectId) {
@@ -36,10 +120,16 @@ const TaskList: React.FC = () => {
             console.error('Error updating task:', error);
         }
     };
-
+    useEffect(() => {
+        setFilteredTask(
+            tasks.filter(task =>
+                task.name.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+        );
+    }, [searchTerm, tasks]);
     return (
-        <Box>
-            <h2>Tasks for Project {projectId}</h2>
+        <Box sx={{ maxWidth: 800, margin: 'auto', mt: 4 }}>
+
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
@@ -82,8 +172,71 @@ const TaskList: React.FC = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={() => setOpenTaskDialog(true)}
+                sx={{ mt: 2 }}
+            >
+                Add New Task
+            </Button>
 
-            <Dialog open={!!editingTask} onClose={() => setEditingTask(null)}>
+            <Dialog open={openTaskDialog} onClose={() => setOpenTaskDialog(false)}>
+                <DialogTitle>Assign New Task</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        label="Project"
+                        fullWidth
+                        value={projectId}
+                        onChange={(e) => setProjectId(e.target.value)}
+                    />
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        label="Task Name"
+                        fullWidth
+                        value={taskName}
+                        onChange={(e) => setTaskName(e.target.value)}
+                    />
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        label="Description"
+                        fullWidth
+                        value={taskDescription}
+                        onChange={(e) => setTaskDescription(e.target.value)}
+                    />
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DatePicker
+                            label="Due Date"
+                            value={taskStartDate}
+                            onChange={(newValue) => setTaskStartDate(newValue)}
+                        />
+                    </LocalizationProvider>
+                    <FormControl fullWidth margin="dense">
+                        <InputLabel id="task-status-label">Task Status</InputLabel>
+                        <Select
+                            labelId="task-status-label"
+                            id="task-status"
+                            value={taskStatus}
+                            label="Task Status"
+                            onChange={(e) => setTaskStatus(e.target.value as string)}
+                        >
+                            <MenuItem value="Complete">Complete</MenuItem>
+                            <MenuItem value="Pending Review">Pending Review</MenuItem>
+                            <MenuItem value="Working">Working</MenuItem>
+                        </Select>
+                    </FormControl>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenTaskDialog(false)}>Cancel</Button>
+                    <Button onClick={handleAddTask}>Add</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog fullScreen={true} open={!!editingTask} onClose={() => setEditingTask(null)}>
                 <DialogTitle>Edit Task</DialogTitle>
                 <DialogContent>
                     {editingTask && (
@@ -102,12 +255,14 @@ const TaskList: React.FC = () => {
                                 value={editingTask.description}
                                 onChange={(e) => setEditingTask({ ...editingTask, description: e.target.value })}
                             />
+                            <InputLabel id="task-status-label">Task Status</InputLabel>
                             <Select
-                                fullWidth
+                                id="task-status"
+                                labelId="task-status-label"
                                 margin="dense"
                                 value={editingTask.status}
                                 onChange={(e) => setEditingTask({ ...editingTask, status: e.target.value as string })}
-                            >
+                             variant="standard">
                                 <MenuItem value="To Do">To Do</MenuItem>
                                 <MenuItem value="In Progress">In Progress</MenuItem>
                                 <MenuItem value="Done">Done</MenuItem>

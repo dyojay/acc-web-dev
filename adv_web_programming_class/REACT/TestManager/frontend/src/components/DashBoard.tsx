@@ -3,7 +3,7 @@ import ProjectList from "./ProjectList";
 import Header from "./Header";
 import { Route, Routes } from "react-router-dom";
 import ErrorBoundary from "./ErrorBoundary.tsx";
-import TaskList from "./TaskList.tsx";
+import TaskList from "./TaskList";
 
 export default function DashBoard() {
     return (
@@ -19,7 +19,7 @@ export default function DashBoard() {
 
             <Route path='/roles' element={<RoleAssigned />} />
 
-                <Route path="/tasks" element={<TaskList />} />
+                <Route path="/task" element={<TaskList />} />
 
             </Routes>
         </>

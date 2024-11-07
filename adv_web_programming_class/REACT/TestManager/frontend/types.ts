@@ -1,9 +1,9 @@
 export interface Task {
-    id?: number;
+    id?: number | null;
     name: string;
     description: string;
     status: string;
-    startTime: Date | string;
+    startTime: Date | null;
     lastModified?: Date | string;
     projectName: string | { id: number; projectName: string }; // Adjust this based on your actual data structure
 }
