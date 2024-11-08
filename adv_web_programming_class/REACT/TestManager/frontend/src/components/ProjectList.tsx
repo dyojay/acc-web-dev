@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {createProject, getAllProjects, Project,getAllTask} from "../Client.ts";
+import {createProject, getAllProjects, Project, getAllTask, updateTask} from "../Client.ts";
 import {
     TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions,
     Box, Table, TableBody, TableCell,
@@ -8,23 +8,14 @@ import {
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import {Route, Routes, useNavigate} from "react-router-dom";
-import TaskList from "./TaskList.tsx";
+import {useNavigate} from "react-router-dom";
+import {Task} from "../../types.ts";
 
 interface ProjectList{
     projects: Project[];
 
 }
 
-
-interface Task {
-    id: number;
-    name: string;
-    description: string;
-    startTime: Date;
-    lastModified: Date;
-
-}
 
  const ProjectList = () => {
      const [projects, setProjects] = useState<Project[]>([]);
@@ -42,7 +33,9 @@ interface Task {
      const [selectedTask, setSelectedTask] = useState<Task | null>(null);
      //-----------------------------------------------------------------
      const [openTaskDialog, setOpenTaskDialog] = useState(false);
+    //@ts-ignore
      const [loading, setIsLoading] = useState(true);
+     // @ts-ignore
      const [error, setError] = useState<string | null>(null);
      const navigate = useNavigate();
 
@@ -119,15 +112,27 @@ interface Task {
              console.error('Error fetching tasks', error);
          }
      };
+     const handleTaskUpdate = async (updatedTask: Task) => {
+         try {
+             const updatedTaskData = await updateTask(updatedTask);
+             setTasks(prevTasks => prevTasks.map(task =>
+                 task.id === updatedTaskData.id ? updatedTaskData : task
+             ));
+             setOpenTaskDialog(false);
+             console.log('Task updated successfully');
+         } catch (error) {
+             console.error('Error updating task:', error);
+             // Handle the error, maybe show an error message to the user
+         }
+     };
 
-
-// Need to route this handleTaskClick to o a page
-
-     // const handleTaskClick = () => {
-     //    <Routes>
-     //     <Route path="/task" />
-     //    </Routes>
-     // }
+     const handleTaskClick = (taskId: Task['id']) => {
+         navigate(`/tasks/${taskId}`);
+     };
+     const formatDate = (date: Date | null | undefined): string => {
+         if (!date) return 'N/A';
+         return date.toLocaleString();
+     };
 // ---------------------------------------------------------------
          return (
              <Box sx={{maxWidth: 800, margin: 'auto', mt: 4}}>
@@ -144,6 +149,7 @@ interface Task {
                      <Table>
                          <TableHead>
                              <TableRow>
+                                 <TableCell>Project ID</TableCell>
                                  <TableCell>Project Name</TableCell>
                                  <TableCell>Description</TableCell>
                                  <TableCell>End Date</TableCell>
@@ -157,6 +163,7 @@ interface Task {
                                      onClick={() => handleProjectClick(project)}
                                      style={{cursor: 'pointer'}}
                                  >
+                                     <TableCell>{project.id}</TableCell>
                                      <TableCell>{project.projectName}</TableCell>
                                      <TableCell>{project.projectDescription}</TableCell>
                                      <TableCell>{project.projectEndDate ? new Date(project.projectEndDate).toLocaleDateString() : 'N/A'}</TableCell>
@@ -240,13 +247,13 @@ interface Task {
                                      {tasks.map((task) => (
                                          <TableRow
                                              key={task.id}
-                                             onClick={() => handleTaskClick()}
+                                             onClick={() => handleTaskClick(task.id)}
                                              style={{cursor: 'pointer'}}
                                          >
                                              <TableCell>{task.name}</TableCell>
                                              <TableCell>{task.description}</TableCell>
-                                             <TableCell>{new Date(task.startTime).toLocaleString()}</TableCell>
-                                             <TableCell>{new Date(task.lastModified).toLocaleString()}</TableCell>
+                                             <TableCell>{formatDate(task.startTime)}</TableCell>
+                                             <TableCell>{formatDate(task.lastModified)}</TableCell>
                                          </TableRow>
                                      ))}
                                  </TableBody>

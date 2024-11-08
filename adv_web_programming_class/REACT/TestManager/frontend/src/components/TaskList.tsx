@@ -5,12 +5,9 @@ import {
     Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Select, MenuItem, FormControl, InputLabel
 } from '@mui/material';
 import {
-    createProject,
-    createTask,
-    getAllProjects,
+    createTask, deleteTask,
     getAllTask,
     getTasksByProjectId,
-    Project,
     updateTask
 } from '../Client';
 import { Task } from '../../types';
@@ -19,117 +16,106 @@ import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 
 const TaskList: React.FC = () => {
-    const { projectId } = useParams<{ projectId: string }>();
+    const { projectId } = useParams<{ projectId: string | undefined }>();
     const location = useLocation();
-
 
     const [tasks, setTasks] = useState<Task[]>([]);
     const [editingTask, setEditingTask] = useState<Task | null>(null);
+
+    //@ts-expect-error
     const [searchTerm, setSearchTerm] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const[error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-
-    const [task,setTask] = useState<Task | null>(null);
-    const [filteredTask, setFilteredTask] = useState<Task[]>([]);
     const [openTaskDialog, setOpenTaskDialog] = useState(false);
 
-
     const [taskName, setTaskName] = useState('');
-    const [projectName, setProjectId] = useState('');
     const [taskDescription, setTaskDescription] = useState('');
-
-
     const [taskStartDate, setTaskStartDate] = useState<Date | null>(null);
     const [taskStatus, setTaskStatus] = useState('');
-    const taskComplete =false;
 
 
-//get all
     useEffect(() => {
-        fetchTask();
-    }, []);
+        fetchTasks();
+    }, [projectId]);
 
-    const fetchTask = async () => {
+    const fetchTasks = async () => {
         setIsLoading(true);
         setError(null);
         try {
-            console.log("testing route")
-            const response = await getAllTask();
-            setTask(response.data);
-                        console.log("testing route 1")
-
+            let response;
+            if (projectId) {
+                response = await getTasksByProjectId(Number(projectId));
+            } else {
+                response = await getAllTask();
+            }
+            setTasks(response.data);
         } catch (error) {
             setError("Error occurred while fetching tasks");
             console.error(error);
         } finally {
-                                    console.log("testing route 2")
-
             setIsLoading(false);
         }
     };
 
-//add task
     const handleAddTask = async () => {
-                const newTask = {
-                    name: taskName,
-                    description: taskDescription,
-                    startDate: taskStartDate,
-                    status: taskStatus,
-                    projectId: projectId,
-                };
+        try {
+            const newTask = {
+                name: taskName,
+                description: taskDescription,
+                startDate: taskStartDate,
+                status: taskStatus,
+                projectId: projectId,
+            };
 
-                const response = await createTask(newTask);
+            const response = await createTask(newTask);
 
-                if (response.data) {
-
-                    // -------Reset form fields
-                    setTaskName('');
-                    setTaskDescription('');
-                    setTaskStartDate(null);
-                    setTaskStatus('');
-                    setOpenTaskDialog(true);
-
-                } else {
-                    throw new Error('Failed to add task');
-                console.error('Error Adding New Task', error);
+            if (response.data) {
+                setTasks([...tasks, response.data]);
+                // Reset form fields
+                setTaskName('');
+                setTaskDescription('');
+                setTaskStartDate(null);
+                setTaskStatus('');
+                setOpenTaskDialog(false);
+                roles:[]
+            } else {
+                throw new Error('Failed to add task');
             }
+        } catch (error) {
+            console.error('Error Adding New Task', error);
+        }
     }
+    const handleDeleteTask = async (task: Task) => {
+        if (!task.id) return;
 
-// get by project id
-    useEffect(() => {
-        const fetchTasks = async () => {
-            if (projectId) {
-                try {
-                    const response = await getTasksByProjectId(Number(projectId));
-                    setTasks(response.data);
-                } catch (error) {
-                    console.error('Error fetching tasks:', error);
-                }
-            }
-        };
-
-        fetchTasks();
-    }, [projectId]);
-
+        try {
+            await deleteTask(task.id);
+            // Remove the deleted task from the tasks state
+            setTasks(tasks.filter(t => t.id !== task.id));
+        } catch (error) {
+            console.error('Error deleting task:', error);
+            // Optionally, show an error message to the user
+        }
+    };
     const handleTaskUpdate = async (task: Task) => {
         try {
             const response = await updateTask(task);
-            setTasks(tasks.map(t => t.id === task.id ? response.data : t));
+            setTasks(tasks.map(t => t.id === task.id ? response : t));
         } catch (error) {
             console.error('Error updating task:', error);
         }
     };
-    useEffect(() => {
-        setFilteredTask(
-            tasks.filter(task =>
-                task.name.toLowerCase().includes(searchTerm.toLowerCase())
-            )
-        );
-    }, [searchTerm, tasks]);
+
+    const filteredTasks = tasks?.filter(task =>
+        task?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false
+    ) ?? [];
+
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
+
     return (
         <Box sx={{ maxWidth: 800, margin: 'auto', mt: 4 }}>
-
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
@@ -137,13 +123,12 @@ const TaskList: React.FC = () => {
                             <TableCell>Task Name</TableCell>
                             <TableCell>Description</TableCell>
                             <TableCell>Status</TableCell>
-                            <TableCell>Start Time</TableCell>
                             <TableCell>Last Modified</TableCell>
                             <TableCell>Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {tasks.map((task) => (
+                        {filteredTasks.map((task) => (
                             <TableRow
                                 key={task.id}
                                 style={{backgroundColor: task.id === location.state?.taskId ? '#e3f2fd' : 'inherit'}}
@@ -160,11 +145,14 @@ const TaskList: React.FC = () => {
                                         <MenuItem value="Done">Done</MenuItem>
                                     </Select>
                                 </TableCell>
-                                <TableCell>{new Date(task.startTime).toLocaleString()}</TableCell>
                                 <TableCell>{task.lastModified ? new Date(task.lastModified).toLocaleString() : 'N/A'}</TableCell>
                                 <TableCell>
+
                                     <Button onClick={() => setEditingTask(task)}>
                                         Edit
+                                    </Button>
+                                    <Button onClick={() => handleDeleteTask(task)}>
+                                        Delete
                                     </Button>
                                 </TableCell>
                             </TableRow>
@@ -190,7 +178,7 @@ const TaskList: React.FC = () => {
                         label="Project"
                         fullWidth
                         value={projectId}
-                        onChange={(e) => setProjectId(e.target.value)}
+                        onChange={(e) => projectId(e.target.value)}
                     />
                     <TextField
                         autoFocus

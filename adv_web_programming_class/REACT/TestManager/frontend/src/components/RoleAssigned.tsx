@@ -56,7 +56,7 @@ const RolesAssigned: React.FC = () => {
     };
 
     return (
-        <Box>
+        <Box sx={{maxWidth: 800, margin: 'auto', mt: 4}}>
             <Typography variant="h4" gutterBottom>Role Assignment</Typography>
             <form onSubmit={handleSubmit}>
                 <Stack spacing={2} direction="row" sx={{ marginBottom: 4 }}>

@@ -10,6 +10,7 @@ export interface Project {
     projectDescription: string;
     projectEndDate: Date | null;
     projectStatus: string;
+    roles: Role[];
 }
 
 
@@ -29,11 +30,15 @@ export const getAllTask=()=> axios.get(`${BASE_URL}/task`);
 export const getTasksByProjectId = (id: number | undefined) =>
     axios.get(`${BASE_URL}/projects/${id}/task`);
 
-export const updateTask = (task: Partial<Task> & { id: number }) =>
-    axios.put(`${BASE_URL}/task/${task.id}`, task);
+export const updateTask = async (task: Task): Promise<Task> => {
+    const response = await axios.put(`/api/task/${task.id}`, task);
+    return response.data;
+};
 
-
-
+export const deleteTask = async (taskId: number): Promise<void> => {
+    const response = await axios.delete(`${BASE_URL}/task/${taskId}`);
+    return response.data;
+};
 
 
 // Roles API calls

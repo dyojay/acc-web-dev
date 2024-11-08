@@ -16,11 +16,8 @@ export default function DashBoard() {
                     element={<ProjectList />}
                     errorElement={<ErrorBoundary />}
                 />
-
-            <Route path='/roles' element={<RoleAssigned />} />
-
+                <Route path='/roles' element={<RoleAssigned />} />
                 <Route path="/task" element={<TaskList />} />
-
             </Routes>
         </>
     );
