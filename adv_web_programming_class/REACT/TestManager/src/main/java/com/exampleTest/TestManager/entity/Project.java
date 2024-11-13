@@ -2,19 +2,12 @@ package com.exampleTest.TestManager.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.sql.Timestamp;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
+@Data
 @Entity
-
 @Table(name="Project")
 public class Project {
     @Id
@@ -23,8 +16,5 @@ public class Project {
 
     private String projectName;
     private String projectDescription;
-    private Timestamp projectEndDate;
-    private String projectStatus;
-
-
+    private Boolean projectStatus;
 }

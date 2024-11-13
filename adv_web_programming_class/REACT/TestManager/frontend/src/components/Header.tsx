@@ -12,8 +12,8 @@ import {NavLink} from "react-router-dom";
                     <Box sx={{ display: 'flex' }}>
                         <Button component={NavLink} to="/" color="inherit"  sx={{ textTransform: 'none' }}> Home </Button>
                         <Button component={NavLink} to="/projects" color="inherit" sx={{ textTransform: 'none' }}> Projects </Button>
-                        <Button component={NavLink} to="/task" color="inherit" sx={{ textTransform: 'none' }}> Tasks </Button>
-                        <Button component={NavLink} to="/roles" color="inherit" sx={{ textTransform: 'none' }}> Roles </Button>
+                        <Button component={NavLink} to="/modify" color="inherit" sx={{ textTransform: 'none' }}> Details </Button>
+
                     </Box>
 
 
