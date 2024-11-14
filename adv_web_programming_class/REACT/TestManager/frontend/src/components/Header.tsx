@@ -4,16 +4,14 @@ import {NavLink} from "react-router-dom";
     const Header =()=> {
     return (
         <Box sx={{marginBottom:4 }}>
-            <AppBar position="static">
+            <AppBar position="sticky">
                 <Toolbar>
-                    <Typography variant="h6" component="div">
+                    <Typography variant="h3" component="div">
                         Pj Magic
                     </Typography>
                     <Box sx={{ display: 'flex' }}>
-                        <Button component={NavLink} to="/" color="inherit"  sx={{ textTransform: 'none' }}> Home </Button>
-                        <Button component={NavLink} to="/projects" color="inherit" sx={{ textTransform: 'none' }}> Projects </Button>
-                        <Button component={NavLink} to="/modify" color="inherit" sx={{ textTransform: 'none' }}> Details </Button>
-
+                        <Button component={NavLink} to="/" color="inherit"  sx={{variant:"h4" , textTransform: 'none' }}> Home </Button>
+                        <Button component={NavLink} to="/projects" color="inherit"  sx={{ variant:"h4" , textTransform: 'none' }}> Projects </Button>
                     </Box>
 
 

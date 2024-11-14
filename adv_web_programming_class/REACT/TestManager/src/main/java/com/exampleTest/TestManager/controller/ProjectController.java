@@ -41,8 +41,20 @@ public class ProjectController {
     }
     @PutMapping("{id}")
     public ResponseEntity<Project> updateProject(@PathVariable Long id, @RequestBody Project project) {
-        Project updateProject = projectService.updateProject(id, project);
-        return new ResponseEntity<>(updateProject, HttpStatus.OK);
+        Project updatedProject = projectService.updateProject(id, project);
+        return new ResponseEntity<>(updatedProject, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/toggle")
+    public ResponseEntity<Project> toggleProjectCompletion(@PathVariable Long id) {
+        try {
+            // Call the service method to toggle the completion status
+            Project updatedProject = projectService.toggleCompletion(id);
+            return ResponseEntity.ok(updatedProject);  // Return the updated project
+        } catch (IllegalArgumentException e) {
+            // Handle case where project is not found
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
 

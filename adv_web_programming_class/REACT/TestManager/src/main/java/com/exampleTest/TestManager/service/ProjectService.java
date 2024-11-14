@@ -35,6 +35,15 @@ public class ProjectService {
         return projectRepository.save(existingProject);
     }
 
+    public Project toggleCompletion(Long id) {
+        Project existingProject = projectRepository.findById(id).orElse(null);
+        if (existingProject == null) {
+            throw new IllegalArgumentException("Project with id " + id + " not found");
+        }
+        existingProject.setProjectStatus(!existingProject.getProjectStatus());
+        return projectRepository.save(existingProject);
+    }
+
 
 
 }
