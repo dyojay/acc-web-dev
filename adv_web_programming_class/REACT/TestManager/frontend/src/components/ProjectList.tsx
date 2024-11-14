@@ -29,7 +29,7 @@ const ProjectList = () => {
     const [projects, setProjects] = useState<Project[]>([]);
     const navigate = useNavigate();
 
-    // Fetch all projects
+    // Fetch  projects----------------------------------------------------
     const listAllProjects = async () => {
         try {
             const res = await getProjects();
@@ -43,7 +43,6 @@ const ProjectList = () => {
         listAllProjects();
     }, []);
 
-    // Navigate to the "Modify" page
     const handleAddTask = () => {
         navigate('/modify');
     };
@@ -124,7 +123,6 @@ const ProjectList = () => {
                 </Table>
             </TableContainer>
 
-            {/* Button to add a new task */}
             <Box sx={{ mt: 2, textAlign: 'center' }}>
                 <Button
                     variant="contained"

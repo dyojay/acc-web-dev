@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { TextField, Button, Box } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import { getProjectById, updateProject } from "../Client.ts";
+import {createProjects, getProjectById, updateProject} from "../Client.ts";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
 const Update = () => {
-    const { id } = useParams<{ id: string }>(); // Get the project ID from the URL
+    const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
 
     const [project, setProject] = useState({
@@ -14,18 +16,15 @@ const Update = () => {
         projectStatus: false
     });
 
-    // Fetch the project data when the component mounts
     useEffect(() => {
         if (id) {
             getProjectById(Number(id)).then((response) => {
-                setProject(response.data); // Populate the form with project data
-            }).catch((error) => {
+                setProject(response.data);
                 console.error("Error fetching project:", error);
             });
         }
     }, [id]);
 
-    // Handle form input changes
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setProject((prevState) => ({
@@ -34,15 +33,22 @@ const Update = () => {
         }));
     };
 
-    // Handle form submission to update project
     const handleSave = () => {
         if (id) {
             updateProject(Number(id), project).then(() => {
-                navigate('/'); // Redirect back to the project list after updating
+                navigate('/projects');
             }).catch((error) => {
                 console.error("Error updating project:", error);
             });
-        }
+        } else {
+            createProjects(project)
+                    .then(() => {
+                        navigate('/projects');
+                    })
+                    .catch((error) => {
+                        console.error("Error creating project:", error);
+                    });
+            }
     };
 
     return (

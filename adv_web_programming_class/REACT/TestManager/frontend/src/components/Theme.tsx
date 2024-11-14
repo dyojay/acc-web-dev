@@ -22,7 +22,7 @@ const Theme = createTheme({
         },
     },
 
-    // Typography configuration
+    // Typography configuration==========================================================
     typography: {
         fontFamily: '"Roboto", sans-serif',
         h4: {
@@ -41,7 +41,7 @@ const Theme = createTheme({
         },
     },
 
-    // Overrides for Material-UI components
+    // Overrides for Material-UI ===============================================
     components: {
         MuiButton: {
             styleOverrides: {
@@ -51,7 +51,7 @@ const Theme = createTheme({
                     textTransform: 'none',
                     boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.1)',
                     '&:hover': {
-                        backgroundColor: '#1565c0', // Darker blue on hover
+                        backgroundColor: '#1565c0',
                     },
                 },
             },
@@ -83,7 +83,7 @@ const Theme = createTheme({
         MuiCheckbox: {
             styleOverrides: {
                 root: {
-                    color: '#1976d2', // Blue color for checkboxes
+                    color: '#1976d2',
                     '&.Mui-checked': {
                         color: '#1976d2',
                     },
@@ -95,7 +95,7 @@ const Theme = createTheme({
                 root: {
                     transition: 'background-color 0.3s ease-in-out',
                     '&:hover': {
-                        backgroundColor: '#e3f2fd', // Light blue on hover for icons
+                        backgroundColor: '#e3f2fd',
                     },
                 },
             },
@@ -103,7 +103,7 @@ const Theme = createTheme({
         MuiTooltip: {
             styleOverrides: {
                 tooltip: {
-                    backgroundColor: '#1976d2', // Blue background for tooltips
+                    backgroundColor: '#1976d2',
                     fontSize: '0.875rem',
                 },
             },
@@ -118,8 +118,7 @@ const Theme = createTheme({
         },
     },
 
-    // Spacing and layout
-    spacing: 8, // Default spacing unit
+    spacing: 8,
 });
 
 export default Theme;

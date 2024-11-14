@@ -9,21 +9,20 @@ const Update = () => {
     const [project, setProject] = useState<Project | null>(null);
 
     useEffect(() => {
-        // Get the project data passed from the ProjectList component
         const projectData = location.state?.project;
         if (projectData) {
             setProject(projectData);
         } else {
-            navigate('/'); // Navigate back if no project data is found
+            navigate('/');
         }
     }, [location.state, navigate]);
 
     const handleSave = async () => {
         if (project) {
             try {
-                // Call your API to update the project
+                // Call  API --------------------------------------------------------------
                 await updateProject(project.id, project);
-                navigate('/'); // Navigate back to the list after update
+                navigate('/');
             } catch (err) {
                 console.log(err);
             }
