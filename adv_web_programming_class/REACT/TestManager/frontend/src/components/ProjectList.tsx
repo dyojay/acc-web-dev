@@ -11,13 +11,13 @@ import {
     TableRow
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getProjects } from "../client";
+import {deleteProject, getProjects, toggleComplete} from "../Client.ts";
 import {useNavigate} from "react-router-dom";  // Assuming `getProjects` is exported correctly
 
 
 
 interface Project {
-    id: string;
+    id: number;
     projectName: string;
     projectDescription: string;
     projectStatus: boolean;
@@ -26,6 +26,8 @@ interface Project {
 const ProjectList = () => {
     // Initialize the state with the correct type
     const [projects, setProjects] = useState<Project[]>([]);
+
+
 const navigate= useNavigate();
     const listAllProjects = async () => {
         try {
@@ -43,8 +45,29 @@ const navigate= useNavigate();
     const handleAddTask = () => {
         navigate('/modify');
     };
-    const handleUpdateTask = (id: string) => {};
-    const handleDeleteTask = (id: string) => { };
+    const handleUpdateTask = (id: number) => {};
+
+    const handleDeleteTask = (id:number) => {
+        deleteProject(id).then(() => {
+            listAllProjects();
+        }).catch((err) => {
+            console.log(err)})
+
+    };
+
+    const handleToggleComplete = (id: number) => {
+        toggleComplete(id).then((response) => {
+            const updateProject = response.data;
+            setProjects((prevTasks) =>
+                prevTasks.map((projects:Project) =>
+                    projects.id === id ? { ...projects, projectStatus: updateProject.projectStatus } : projects
+                )
+            );
+        })
+            .catch((error) => {
+                console.error("Error toggling completion:", error);
+            });
+    };
 
     return (
         <Box>
@@ -61,7 +84,7 @@ const navigate= useNavigate();
                         {projects.map((project) => (
                             <TableRow key={project.id}>
                                 <TableCell>
-                                    <Checkbox checked={project.projectStatus} />
+                                    <Checkbox checked={project.projectStatus} onChange={()=> handleToggleComplete(project.id)} />
                                 </TableCell>
                                 <TableCell>{project.projectName}</TableCell>
                                 <TableCell>{project.projectDescription}</TableCell>
