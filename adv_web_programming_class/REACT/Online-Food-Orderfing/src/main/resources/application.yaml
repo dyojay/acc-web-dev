@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: online_restaurant
+
+  datasource:
+    url: jdbc:postgresql://localhost:5436/tutorial
+    driver-class-name: org.postgresql.Driver
+    username: dev_young
+    password: dev_young13
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    jpa:
+      generate-ddl: false
+      hibernate:
+        ddl-auto: none
+  server:
+    port: 8080
