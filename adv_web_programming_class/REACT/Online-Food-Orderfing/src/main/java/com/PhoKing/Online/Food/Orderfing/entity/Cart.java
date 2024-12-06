@@ -1,8 +1,11 @@
 package com.PhoKing.Online.Food.Orderfing.entity;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,20 +13,17 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class OrderItem {
-    @Id
+public class Cart {
+     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    private Food food;
+     @OneToOne
+     private User customer;
 
-    private int quantity;
+     private Long total;
 
-    private Long totalPrice;
-
-    private List<String> ingredients ;
-
-
+     @OneToMany(mappedBy = "cart", CascadeType.ALL,orphanRemoval = true)
+     private List<CartItem> items = new ArrayList<>();
 
 }

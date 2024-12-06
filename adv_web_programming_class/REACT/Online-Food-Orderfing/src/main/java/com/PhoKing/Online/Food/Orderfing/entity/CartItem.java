@@ -1,46 +1,32 @@
 package com.PhoKing.Online.Food.Orderfing.entity;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
+public class CartItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    private User customer;
-
     @JsonIgnore
     @ManyToOne
-    private Restaurant restaurant;
-
-    private Long totalAmount;
-
-    private String orderStatus;
-
-    private Date creadtedAt;
+    private Cart cart;
 
     @ManyToOne
-    private Address deliveryAddress;
+    private Food food;
 
+    private int quantity;
 
-    @OneToMany
-    private List<OrderItem> items;
+    private List<String> ingredients;
 
-
-    private int totalItem;
-
-    private int totalPrice;
+    private Long totalPrice;
 }
